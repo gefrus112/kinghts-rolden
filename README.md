@@ -93,6 +93,19 @@ bun run build
 bun run start        # serves on port 3000, put it behind nginx/caddy
 ```
 
+## Static version (GitHub Pages)
+
+This repo also keeps an earlier **pure static version** of the club site in
+[`docs/`](./docs) (plain HTML/CSS/JS, no backend). GitHub Pages serves it:
+
+1. Repo **Settings → Pages → Build and deployment**
+2. Source: *Deploy from a branch* → Branch: `main`, Folder: **`/docs`**
+3. Save.
+
+> The static version shows the live club roster and a watch tab straight from
+> the Chess.com API in the browser, but it cannot offer site accounts or the
+> move-by-move PGN viewer — those need the Next.js app (Vercel / VPS / local).
+
 ## Not affiliated
 
 This is a community site for the Kinghts Rolden club and is not affiliated
