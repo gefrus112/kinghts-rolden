@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kinghts Rolden · Chess Club</title>
+<meta name="description" content="Official home of the Kinghts Rolden chess club — live roster, club matches, games to watch, and the Best Moves Lab where every checkmate has its own name.">
+<meta property="og:title" content="Kinghts Rolden · Chess Club">
+<meta property="og:description" content="Live club roster, matches, games to watch and the Best Moves Lab for 10-minute chess.">
+<link rel="icon" type="image/svg+xml" href="knight.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="brand" data-goto="club">
+    <img src="knight.svg" alt="Kinghts Rolden knight logo" class="logo">
+    <span class="brand-name">Kinghts<em>Rolden</em></span>
+  </button>
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <button class="tab active" data-goto="club">🏰 Club</button>
+    <button class="tab" data-goto="watch">📺 Watch</button>
+    <button class="tab" data-goto="learn">♞ Best Moves</button>
+    <button class="tab" data-goto="join">✨ Join</button>
+  </nav>
+  <button id="themeToggle" class="icon-btn" aria-label="Switch light/dark theme" title="Light / dark theme">🌙</button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="panel-head">
+      <h2>Club Players</h2>
+      <span class="pill" id="memberCount">…</span>
+    </div>
+    <input id="memberSearch" class="search" type="search" placeholder="Search player…" autocomplete="off">
+    <div class="online-bar" id="onlineBar"><span class="spin"></span> Loading roster…</div>
+    <ul id="membersList" class="members"></ul>
+    <div class="side-foot">
+      <label class="fine" for="slugOverride">Club slug (auto-detected — override if needed)</label>
+      <div class="slug-row">
+        <input id="slugOverride" type="text" placeholder="e.g. kinghts-rolden">
+        <button id="slugSave" class="mini-btn">Save</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content" id="main">
+
+    <!-- ============ CLUB ============ -->
+    <section class="view active" id="view-club">
+      <div class="hero card">
+        <img src="knight.svg" alt="Golden knight" class="hero-knight">
+        <div>
+          <h1>Kinghts <em>Rolden</em></h1>
+          <p class="lead">One club, one color — green squares and golden knights. Live roster from chess.com, club matches to follow, games to watch, and a <b>Best Moves Lab</b> that teaches you named checkmates for 10-minute games.</p>
+          <div class="cta-row">
+            <button class="btn gold" data-goto="watch">▶ Watch games</button>
+            <a class="btn ghost" href="https://www.chess.com/clubs/1115308/members/invite" target="_blank" rel="noopener">➕ Join the club</a>
+          </div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat card"><span class="num" id="statMembers">–</span><span class="lab">Players</span></div>
+        <div class="stat card"><span class="num" id="statOnline">–</span><span class="lab">Online now</span></div>
+        <div class="stat card"><span class="num" id="statMatches">–</span><span class="lab">Club matches</span></div>
+      </div>
+      <div class="card">
+        <h3>About the club</h3>
+        <p class="lead">The Kinghts Rolden is a chess.com club for rapid and blitz lovers — especially 10-minute games. We run team matches, vote chess and a friendly rivalry ladder. On this page you can see every member on the left, watch the latest games our players fought out, and learn our signature checkmates in the <button class="linklike" data-goto="learn">Best Moves Lab</button> — press play and watch each trap unfold, every move with its own club name.</p>
+      </div>
+    </section>
+
+    <!-- ============ WATCH ============ -->
+    <section class="view" id="view-watch">
+      <h2>Watch ♟</h2>
+      <div class="watch-grid">
+        <div class="card">
+          <h3>Live Chess TV</h3>
+          <p class="fine">Live top-level board, embedded. chess.com doesn't allow embedding its player, so every club game below opens on chess.com in one click.</p>
+          <div class="tv-frame">
+            <iframe src="https://lichess.org/tv/frame?theme=green&bg=dark" title="Live chess TV" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Club Matches <span class="pill" id="matchCount"></span></h3>
+          <div id="matchesList" class="matches"><div class="muted-note"><span class="spin"></span> Loading matches…</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Latest games by club players <span class="pill" id="gameCount"></span></h3>
+        <div id="gamesGrid" class="games"><div class="muted-note"><span class="spin"></span> Loading recent games…</div></div>
+      </div>
+    </section>
+
+    <!-- ============ BEST MOVES ============ -->
+    <section class="view" id="view-learn">
+      <h2>Best Moves Lab ♞</h2>
+      <p class="lead">The best checkmate lines for 10-minute chess. Pick a trap, press <b>▶ Play</b> and watch it unfold — every move wears its own club name and a type badge, so you learn <i>what kind of move</i> it is, not just where it goes.</p>
+      <div class="learn-grid">
+        <div class="line-picker" id="linePicker"></div>
+        <div class="board-zone">
+          <div class="board" id="board" aria-label="Chess board"></div>
+          <div class="controls">
+            <button id="btnReset" class="ctl" title="Back to start">⏮</button>
+            <button id="btnPrev" class="ctl" title="Previous move">◀</button>
+            <button id="btnPlay" class="ctl play" title="Auto-play the line">▶ Play</button>
+            <button id="btnNext" class="ctl" title="Next move">▶</button>
+            <span class="ply-label" id="plyLabel">Start position</span>
+          </div>
+          <div class="commentary card" id="commentary"></div>
+        </div>
+        <div class="move-list card" id="moveList"></div>
+      </div>
+      <h3 class="kit-title">10-Minute Opening Kit</h3>
+      <div class="kit-grid">
+        <div class="card kit"><span class="kit-mv">1.e4 e5 2.Nf3 Nc6 3.Bc4</span><b>Italian Game</b><p>Fast development, instant pressure on f7. The perfect attacking setup for 10-minute games.</p></div>
+        <div class="card kit"><span class="kit-mv">1.e4 e5 2.Nf3 Nc6 3.Bb5</span><b>Ruy Lopez</b><p>The steady club-killer. Solid, safe, full of long-term pressure.</p></div>
+        <div class="card kit"><span class="kit-mv">1.e4 e5 2.Nc3</span><b>Vienna Game</b><p>Hides a sneaky f4 pawn storm. Trap-rich choice for rapid.</p></div>
+        <div class="card kit"><span class="kit-mv">1.d4 d5 2.Bf4</span><b>London System</b><p>The same healthy setup every game — more clock time left for tactics.</p></div>
+      </div>
+      <div class="card rules">
+        <h3>Golden rules for 10-minute games</h3>
+        <ol>
+          <li><b>Checks, captures, threats</b> — scan those three before every move, even on the clock.</li>
+          <li><b>Castle before move 8</b> — an uncastled king loses 10-minute games all by itself.</li>
+          <li><b>Don't send the queen out too early</b> — she becomes a target (see The Golden Widow).</li>
+          <li><b>Every pawn move opens a door</b> — f3/g4-style moves invite The Two-Move Trap family.</li>
+          <li><b>Found a good move?</b> Look one second longer for a named checkmate.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ JOIN ============ -->
+    <section class="view" id="view-join">
+      <h2>Join Kinghts Rolden ✨</h2>
+      <div class="steps">
+        <div class="card step"><span class="step-n">1</span><b>Tap the golden button</b><p>Open the official chess.com club invite and press <i>Join</i>. That is your real membership.</p></div>
+        <div class="card step"><span class="step-n">2</span><b>Claim your spot here</b><p>Type your chess.com username below — we verify it live through the chess.com API and save it on this device.</p></div>
+        <div class="card step"><span class="step-n">3</span><b>Show up and play</b><p>Team matches and 10-minute wars are announced in the club. Bring the named mates from the Best Moves Lab.</p></div>
+      </div>
+      <div class="join-row">
+        <a class="btn gold big" href="https://www.chess.com/clubs/1115308/members/invite" target="_blank" rel="noopener">➕ Join the club on chess.com</a>
+      </div>
+      <div class="card form-card">
+        <h3>Register with your chess.com account</h3>
+        <p class="fine">chess.com doesn't offer public login for other sites, so we verify your username live instead — same account, zero passwords.</p>
+        <form id="joinForm">
+          <input id="joinUser" type="text" placeholder="your chess.com username" autocomplete="off" required>
+          <button class="btn gold" type="submit">Verify &amp; save</button>
+        </form>
+        <div id="joinStatus" class="join-status"></div>
+        <div id="myMembers" class="chips"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="foot">♞ Kinghts Rolden — made for the club · roster, matches &amp; games powered by the chess.com public API</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
